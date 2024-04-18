@@ -39,7 +39,7 @@ jobs:
 
   dependency-review:
     needs: gradle
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
