@@ -1,11 +1,6 @@
 name: Pre Merge Checks
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-  workflow_dispatch:
+on: [pull_request]
 
 permissions:
   contents: read
@@ -43,13 +38,15 @@ jobs:
           arguments: build --stacktrace --info
 
   dependency-review:
-  needs: gradle
-  runs-on: ${{ matrix.os }}
-  steps:
-    - name: Dependency Review
-      uses: actions/dependency-review-action@v4
-      with:
-        comment-summary-in-pr: always
-        fail-on-severity: high
-        allow-licenses: MIT
-        fail-on-scopes: development, runtime
+    needs: gradle
+    runs-on: ${{ matrix.os }}
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          comment-summary-in-pr: always
+          fail-on-severity: high
+          allow-licenses: MIT
+          fail-on-scopes: development, runtime
